@@ -39,7 +39,7 @@ jobs:
             az containerapp ingress traffic set \
               --name front-${{ toJSON(github.event.action) }} \
               --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
-              --revision-weight front-001--rev-001=100 front-001--rev-002=0
+              --revision-weight front-${{ toJSON(github.event.action) }}--rev-001=100 front-${{ toJSON(github.event.action) }}--rev-002=0
           fi
             
    
