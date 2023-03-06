@@ -1,5 +1,3 @@
-
-
 name: Update aca
 on:
   repository_dispatch:
@@ -13,3 +11,36 @@ jobs:
           echo ${{ toJSON(github.event.action) }}
       - name: Checkout repo
         uses: actions/checkout@v2
+        
+      - name: update aca front
+        run: |
+          az containerapp update \
+            --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+            --name front-${{ toJSON(github.event.action) }} \
+            --image beacr.azurecr.io/front-razor:2.0.0 \
+            --revision-suffix rev-002
+            
+      - name: Get URL Front
+        run: |
+          URLFRONT=`az containerapp show \
+            --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+            --name front-${{ toJSON(github.event.action) }} \
+            --query properties.configuration.ingress.fqdn \
+            --output tsv`
+            
+      - name: Check version
+        run: |
+          if curl -s --request GET https://$URLFRONT | grep "2.0.0" > /dev/null; then
+            echo "rev ok"
+          else
+            az containerapp ingress traffic set \
+              --name front-${{ toJSON(github.event.action) }} \
+              --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+              --revision-weight front-001--rev-001=100 front-001--rev-002=0
+          fi
+            
+   
+          
+        
+        
+
