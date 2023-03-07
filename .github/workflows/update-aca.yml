@@ -31,17 +31,26 @@ jobs:
             --name front-${{ toJSON(github.event.action) }} \
             --query properties.configuration.ingress.fqdn \
             --output tsv`
-            
-      - name: Check version
+
+      - name: Check URL
         run: |
-          if curl -s --request GET https://$URLFRONT | grep "2.0.0" > /dev/null; then
-            echo "rev ok"
-          else
-            az containerapp ingress traffic set \
-              --name front-${{ toJSON(github.event.action) }} \
-              --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
-              --revision-weight front-${{ toJSON(github.event.action) }}--rev-001=100 front-${{ toJSON(github.event.action) }}--rev-002=0
-          fi
+          echo $URLFRONT
+          https://$URLFRONT
+
+    
+
+
+            
+      #- name: Check version
+      #  run: |
+      #    if curl -s --request GET https://$URLFRONT | grep "2.0.0" > /dev/null; then
+      #      echo "rev ok"
+      #    else
+      #      az containerapp ingress traffic set \
+      #        --name front-${{ toJSON(github.event.action) }} \
+      #        --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+      #        --revision-weight front-${{ toJSON(github.event.action) }}--rev-001=100 front-${{ toJSON(github.event.action) }}--rev-002=0
+      #    fi
             
    
           
