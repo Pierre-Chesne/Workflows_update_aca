@@ -18,34 +18,29 @@ jobs:
       - name: Update aca front
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
-      #    az containerapp update \
-      #      --resource-group Rg_Client_${{toJSON(github.event.action)}} \
-      #      --name front-${{toJSON(github.event.action)}} \
-      #      --image beacr.azurecr.io/front-razor:2.0.0 \
-      #      --revision-suffix rev-002
+          
+          az containerapp update \
+            --resource-group Rg_Client_${{toJSON(github.event.action)}} \
+            --name front-${{toJSON(github.event.action)}} \
+            --image beacr.azurecr.io/front-razor:2.0.0 \
+            --revision-suffix rev-002
             
-      - name: Get URL Front
+      - name: Check Version
         run: |
           URLFRONT=`az containerapp show \
             --resource-group Rg_Client_001 \
             --name front-001 \
             --query properties.configuration.ingress.fqdn \
             --output tsv`
-          echo $URLFRONT
-          curl https://$URLFRONT
-
-
             
-      #- name: Check version
-      #  run: |
-      #    if curl -s --request GET https://$URLFRONT | grep "2.0.0" > /dev/null; then
-      #      echo "rev ok"
-      #    else
-      #      az containerapp ingress traffic set \
-      #        --name front-${{ toJSON(github.event.action) }} \
-      #        --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
-      #        --revision-weight front-${{ toJSON(github.event.action) }}--rev-001=100 front-${{ toJSON(github.event.action) }}--rev-002=0
-      #    fi
+          if curl -s --request GET https://$URLFRONT | grep "2.0.0" > /dev/null; then
+            echo "rev ok"
+          else
+            az containerapp ingress traffic set \
+              --name front-${{ toJSON(github.event.action) }} \
+              --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+              --revision-weight front-${{ toJSON(github.event.action) }}--rev-001=100 front-${{ toJSON(github.event.action) }}--rev-002=0
+          fi
             
    
           
