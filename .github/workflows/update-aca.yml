@@ -15,9 +15,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-      #- name: Update aca front
-      #  run: |
-      #    az config set extension.use_dynamic_install=yes_without_prompt
+      - name: Update aca front
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
       #    az containerapp update \
       #      --resource-group Rg_Client_${{toJSON(github.event.action)}} \
       #      --name front-${{toJSON(github.event.action)}} \
@@ -26,10 +26,9 @@ jobs:
             
       - name: Get URL Front
         run: |
-          az config set extension.use_dynamic_install=yes_without_prompt
           URLFRONT=`az containerapp show \
-            --resource-group Rg_Client_${{toJSON(github.event.action)}} \
-            --name front-${{toJSON(github.event.action)}} \
+            --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
+            --name front-${{ toJSON(github.event.action) }} \
             --query properties.configuration.ingress.fqdn \
             --output tsv`
 
