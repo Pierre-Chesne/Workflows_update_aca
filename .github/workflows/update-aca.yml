@@ -31,9 +31,6 @@ jobs:
             --name front-001 \
             --query properties.configuration.ingress.fqdn \
             --output tsv`
-
-      - name: Check URL
-        run: |
           echo $URLFRONT
           curl https://$URLFRONT
 
