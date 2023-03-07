@@ -26,6 +26,7 @@ jobs:
             
       - name: Get URL Front
         run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
           URLFRONT=`az containerapp show \
             --resource-group Rg_Client_${{toJSON(github.event.action)}} \
             --name front-${{toJSON(github.event.action)}} \
