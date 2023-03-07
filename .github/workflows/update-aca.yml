@@ -19,8 +19,8 @@ jobs:
         run: |
           az config set extension.use_dynamic_install=yes_without_prompt
           az containerapp update \
-            --resource-group Rg_Client_${{ toJSON(github.event.action) }} \
-            --name front-${{ toJSON(github.event.action) }} \
+            --resource-group Rg_Client_${{toJSON(github.event.action)}} \
+            --name front-${{toJSON(github.event.action)}} \
             --image beacr.azurecr.io/front-razor:2.0.0 \
             --revision-suffix rev-002
             
