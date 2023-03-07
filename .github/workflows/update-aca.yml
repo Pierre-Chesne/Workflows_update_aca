@@ -30,7 +30,7 @@ jobs:
             --resource-group Rg_Client_${{toJSON(github.event.action)}} \
             --name front-${{toJSON(github.event.action)}} \
             --query properties.configuration.ingress.fqdn \
-            --output tsv``
+            --output tsv`
 
       - name: Check URL
         run: |
