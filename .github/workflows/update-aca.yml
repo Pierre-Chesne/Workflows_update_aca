@@ -35,7 +35,7 @@ jobs:
       - name: Check URL
         run: |
           echo $URLFRONT
-          https://$URLFRONT
+          curl https://$URLFRONT
 
     
 
