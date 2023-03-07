@@ -3,7 +3,7 @@ on:
   repository_dispatch:
 
 jobs:
-  Deploy_Environnment:
+  Update_Environnment:
     runs-on: ubuntu-latest
     steps:
       - name: Client Number
