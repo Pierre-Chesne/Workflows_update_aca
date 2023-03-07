@@ -37,8 +37,6 @@ jobs:
           echo $URLFRONT
           curl https://$URLFRONT
 
-    
-
 
             
       #- name: Check version
